@@ -50,6 +50,8 @@ public class CableSplineEditor: Editor {
         cableSpline.SmoothnessLevel = Mathf.Clamp(EditorGUILayout.IntField("Smoothness Level", cableSpline.SmoothnessLevel), 0, 10);
         cableSpline.RoundSegments = Mathf.Clamp(EditorGUILayout.IntField("Roundness", cableSpline.RoundSegments), 3, 30);
         cableSpline.Diameter = Mathf.Clamp(EditorGUILayout.FloatField("Diameter", cableSpline.Diameter), 0.01f, 10);
+        cableSpline.Material = EditorGUILayout.ObjectField("Material", cableSpline.Material, typeof(Material), false) as Material;
+
         EditorGUILayout.Space();
 
         cableSpline.IsEditable = GUILayout.Toggle(cableSpline.IsEditable, "Edit path", "Button", GUILayout.Height(24));
@@ -195,8 +197,7 @@ public class CableSplineEditor: Editor {
         controlPoint.Direction = Handles.DoRotationHandle(controlPoint.Direction, position);
         if (EditorGUI.EndChangeCheck()) {
             Undo.RecordObject(cable, "Edited Cable control point");
-            // TODO: Update the cable mesh
-            //cable.UpdateMesh();
+            cable.UpdateMesh();
             EditorUtility.SetDirty(cable);
         }
     }
